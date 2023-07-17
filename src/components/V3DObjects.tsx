@@ -1,9 +1,9 @@
-import {Viro3DObject, ViroNode} from '@viro-community/react-viro';
-import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+import { Viro3DObject, ViroNode } from '@viro-community/react-viro';
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
 
-const Simple3DObject = props => {
-  const {object} = props;
+const Simple3DObject = (props) => {
+  const { object } = props;
 
   console.log('----L : ', object);
 
@@ -12,19 +12,20 @@ const Simple3DObject = props => {
                 that change their position of the object, affect all three */
 
   return (
-    <ViroNode position={object.position}>
-      <Viro3DObject
-        source={object.obj}
-        resources={object.resources}
-        position={object.position}
-        scale={object.scale}
-        type={object.type}
-        animation={{...object.animation, run: true}}
-        //materials={['heart']}
-        //dragType="FixedDistance"
-        onDrag={() => {}}
-      />
-    </ViroNode>
+    <Viro3DObject
+      source={object.obj}
+      resources={object.resources}
+      position={object.position}
+      scale={object.scale}
+      type={object.type}
+      animation={{ ...object.animation, run: true }}
+      //materials={['heart']}
+      //dragType="FixedDistance"
+      //   lightReceivingBitMask={3}
+      //   shadowCastingBitMask={2}
+      //   transformBehaviors={['billboardY']}
+      onDrag={() => {}}
+    />
   );
 };
 export default Simple3DObject;
