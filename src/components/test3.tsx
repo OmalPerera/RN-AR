@@ -21,8 +21,9 @@ const Test3Component = (props) => {
   const [modelsCounter, setmodelsCounter] = useState(0);
   const [modelArray, setmodelArray] = useState([]);
   const arSelectorRef: any = useRef(null);
+  const obj3D: any = modelItems[4];
 
-  const getPortal = (anchor) => {
+  const getWallWindows = (anchor) => {
     return (
       <ViroARPlane anchorId={anchor.anchorId}>
         <ViroNode key="portal">
@@ -42,39 +43,35 @@ const Test3Component = (props) => {
                 type="VRX"
               />
             </ViroPortal>
-            <Viro360Image source={require('../res/360_wakanda.jpg')} />
+            <Viro360Image source={require('../res/360_lake.jpg')} />
           </ViroPortalScene>
         </ViroNode>
       </ViroARPlane>
     );
   };
 
-  const getMonster = (anchor) => {
+  const get3Dmodel = (anchor) => {
+    console.log('Anchor : ', anchor);
     return (
       <ViroARPlane anchorId={anchor.anchorId}>
-        <ViroNode key="monster" dragType="FixedToWorld">
+        <ViroNode key="3dmodel" dragType="FixedToWorld" onDrag={() => {}}>
           <Viro3DObject
-            source={modelItems[1].obj}
-            resources={modelItems[1].resources}
+            source={obj3D.obj}
+            resources={obj3D.resources}
             onLoadEnd={() => {
               arSelectorRef.current.reset();
             }}
-            scale={[0.01, 0.01, 0.01]}
-            type="VRX"
-            animation={{
-              name: 'mixamo.com',
-              run: true,
-              loop: true,
-              delay: 1000,
-            }}
+            scale={obj3D.scale}
+            type={obj3D.type}
+            animation={{ ...obj3D.animation, run: true }}
           />
-          <ViroQuad
+          {/* <ViroQuad
             position={[0, 0, 0]}
             rotation={[-90, 0, 0]}
             height={10}
             width={10}
             //arShadowReceiver={true}
-          />
+          /> */}
         </ViroNode>
       </ViroARPlane>
     );
@@ -84,18 +81,19 @@ const Test3Component = (props) => {
     let mA: any = modelArray;
     switch (modelsCounter) {
       case 0:
-        mA = [...modelArray, getMonster(anchor)];
+        mA = [...modelArray, get3Dmodel(anchor)];
         break;
       case 1:
-        mA = [...modelArray, getPortal(anchor)];
+        mA = [...modelArray, getWallWindows(anchor)];
         break;
     }
     setmodelsCounter(modelsCounter + 1);
-    //setmodelArray(mA);
+    setmodelArray(mA);
   };
 
   return (
     <>
+      {/* <Viro360Image source={require('../res/360_living_room.jpg')} /> */}
       <ViroAmbientLight color="#ffffff" intensity={200} />
       <ViroDirectionalLight
         color="#777777"
@@ -120,6 +118,7 @@ const Test3Component = (props) => {
         shadowOpacity={0.7}
       />
       <ViroARPlaneSelector
+        maxPlanes={2}
         ref={(selectorRef) => {
           console.log('selectorRef : ', selectorRef);
           arSelectorRef.current = selectorRef;

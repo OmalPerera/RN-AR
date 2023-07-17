@@ -18,7 +18,7 @@ const Simple3DObject = (props) => {
       position={object.position}
       scale={object.scale}
       type={object.type}
-      animation={{ ...object.animation, run: true }}
+      //animation={{ ...object.animation, run: true }}
       //materials={['heart']}
       //dragType="FixedDistance"
       //   lightReceivingBitMask={3}
